@@ -1,4 +1,4 @@
-# [FullStackOpen 2020](https://fullstackopen.com/en)
+# [FullStackOpen 2021](https://fullstackopen.com/en)
 
 This repository contains my solutions to the problem sets of the course. 
 
