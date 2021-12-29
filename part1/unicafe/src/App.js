@@ -1,65 +1,62 @@
-import React from 'react'
+import React, { useState } from 'react'
 
-// Header component, Renders Course Name
-const Header = (props) => {
-	return (
-		<h1>{props.course}</h1>
-	)
-}
+const Button = (props) => (
+		<button onClick={props.addFeedback}>{props.text}</button>
+)
 
-// Used in component Content
-// Renders Course part and number of exercises
-const Part = (props) => {
-	return (
+const StatisticLine = (props) => (
 		<>
-			<p>
-				{props.part} {props.exercises}
-			</p>
+			<tr>
+					<td>{props.option}</td><td>{props.number}</td>
+			</tr>
 		</>
-	)
-}
+)
 
-// Uses Part component to display part and exercises 
-const Content = (props) => {
-	return (
-		<>
-			<Part part = {props.part1} exercises = {props.exercises1} />
-			<Part part = {props.part2} exercises = {props.exercises2} />
-			<Part part = {props.part3} exercises = {props.exercises3} />
-		</>
-	)
-}
+const Statistics = (props) => {
+	let total = props.good + props.bad + props.neutral
+	let average = (props.good - props.bad) / total
+	let positive = props.good * 100 / total
 
-// Renders Total exercises in the course
-const Total = (props) => {
+	if(total === 0){
+		return (
+			<div>No feedback given</div>
+		)
+	}
 	return (
-		<>
-			<p>Number of exercises {props.exercises1 + props.exercises2 + props.exercises3}</p>
-		</>
+		<div>
+			<table>
+				<tbody>
+					<StatisticLine option="Good" number={props.good}/>
+					<StatisticLine option="Neutral" number={props.neutral}/>
+					<StatisticLine option="Bad" number={props.bad}/>
+					<tr><td>all</td><td>{total}</td></tr>
+					<tr><td>average</td><td>{average}</td></tr>
+					<tr><td>positive</td><td>{positive}%</td></tr>
+				</tbody>
+			</table>
+		</div>
 	)
 }
 
 const App = () => {
-  const course = 'Half Stack application development'
-  const part1 = 'Fundamentals of React'
-  const exercises1 = 10
-  const part2 = 'Using props to pass data'
-  const exercises2 = 7
-  const part3 = 'State of a component'
-  const exercises3 = 14
+	// save clicks of each button to its own state
+	const [good, setGood] = useState(0)
+	const [neutral, setNeutral] = useState(0)
+	const [bad, setBad] = useState(0)
+//   const [feedback, updateFeedback] = useState({
+// 	  good: 0, neutral: 0, bad: 0
+//   })
 
-  return (
-    <div>
-		<Header course={course} />
-		
-		<Content part1={part1} part2={part2} part3 = {part3} 
-				 exercises1={exercises1} exercises2 = {exercises2} 
-				 exercises3 = {exercises3} />
-
-		<Total exercises1={exercises1} exercises2 = {exercises2} 
-			   exercises3 = {exercises3} />
-    </div>
-  )
+	return (
+		<div>
+			<h1>give feedback</h1>
+			<Button addFeedback={() => setGood(good + 1)} text="Good"/>
+			<Button addFeedback={() => setNeutral(neutral + 1)} text="Neutral"/>
+			<Button addFeedback={() => setBad(bad + 1)} text="Bad"/>
+			<h1>statistics</h1>
+			<Statistics good={good} bad={bad} neutral={neutral}/>
+		</div>
+	)
 }
 
 export default App
