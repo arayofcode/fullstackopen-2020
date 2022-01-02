@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Form from './Components/form'
 import Filter from './Components/filter'
-import Persons from './persons'
+import Persons from './Components/persons'
 
 const App = () => {
     const [persons, setPersons] = useState([
@@ -31,7 +31,6 @@ const App = () => {
         let searchResult = persons.filter((person) => 
             person.name.toLowerCase().includes(search.toLowerCase())
         )
-        console.log(searchResult)
         setFilter(searchResult)
     }
 
