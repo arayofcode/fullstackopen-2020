@@ -14,7 +14,6 @@ const App = () => {
     const [newName, setNewName] = useState('')
     const [newNumber, setNewNumber] = useState('')
     const [searchPerson, setSearchPerson] = useState('')
-    const [filteredPersons, setFilter] = useState(persons)
     
     const updateName = (event) => {
         setNewName(event.target.value)
@@ -27,11 +26,6 @@ const App = () => {
     const updateSearchPerson = (event) => {
         let search = event.target.value
         setSearchPerson(search)
-        // Look for this search term in all persons
-        let searchResult = persons.filter((person) => 
-            person.name.toLowerCase().includes(search.toLowerCase())
-        )
-        setFilter(searchResult)
     }
 
     // Add a new person's details
@@ -47,6 +41,10 @@ const App = () => {
             setNewNumber("")    
         }
     }
+
+    const filteredPersons = persons.filter(
+        (person) => person.name.toLowerCase().includes(searchPerson.toLowerCase())
+    )
 
     return (
     <div>

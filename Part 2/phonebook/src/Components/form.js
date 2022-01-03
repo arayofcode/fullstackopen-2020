@@ -1,3 +1,5 @@
+import React from "react"
+
 const Form = ({addPerson, newName, updateName, newNumber, updateNumber}) => {
     return(    
         <form onSubmit={addPerson}>

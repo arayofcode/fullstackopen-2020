@@ -17,6 +17,4 @@ const Persons = ({persons}) => {
 
 }
 
-
-
 export default Persons
