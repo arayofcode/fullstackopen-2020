@@ -1,5 +1,24 @@
+import axios from "axios"
+import { useEffect, useState } from "react"
+
+// Shows a single country
 const ShowCountry = ({country}) => {
-    // Shows a single country
+    const [weather, setWeather] = useState([])
+    const [temp, setTemp] = useState(undefined)
+    const [imgURL, setIMG] = useState(undefined)
+    const [wind, setWind] = useState(undefined)
+
+    useEffect(
+        () => {
+            axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${country.capital}&units=metric&appid=${process.env.REACT_APP_WEATHER_API_KEY}`)
+            .then(response => {
+                setWeather(response.data)
+                setTemp((weather.main.temp).toFixed(0))
+                setIMG(`https://openweathermap.org/img/w/${response.data.weather.icon}.png`)
+                setWind((response.data.wind.speed * 2.236936).toFixed())
+            }
+        )}, [country.capital, weather]
+    )
     return(
         <div>
             <h1>{country.name.common}</h1>
@@ -21,6 +40,9 @@ const ShowCountry = ({country}) => {
             </ul>
             {/* Didn't use svg because I'd have to reshape and I'm lazyx */}
             <img src={country.flags.png} alt={`Flag of ${country.name.common}`}/>
+            <div><strong>Temperature: </strong>{temp}</div>
+            <img src={imgURL} alt="Weather icon"/>
+            <div><strong>Wind: </strong>{wind} mph</div>
         </div>
     )
 }
