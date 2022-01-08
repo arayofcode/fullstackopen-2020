@@ -1,5 +1,4 @@
-import React from "react"
-
+// Form that asks for name and number
 const Form = ({addPerson, newName, updateName, newNumber, updateNumber}) => {
     return(    
         <form onSubmit={addPerson}>

@@ -1,7 +1,7 @@
-import React from "react";
 import Person from "./person";
 
-const Persons = ({persons, setPersons}) => {
+// Shows list of people in phonebook
+const Persons = ({persons, setPersons, setNotification}) => {
     if( persons.length === 0){
         return <div>No data to show</div>
     }
@@ -9,7 +9,7 @@ const Persons = ({persons, setPersons}) => {
         return(
             <ul>
                 {persons.map(
-                    (person) => <Person key={person.id} data={person} setPersons={setPersons}/>
+                    (person) => <Person key={person.id} data={person} setPersons={setPersons} setNotification={setNotification}/>
                 )}
             </ul>
         )
