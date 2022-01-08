@@ -47,7 +47,6 @@ const App = () => {
                 .then(
                     () => phonebookService.getAll().then(persons => setPersons(persons))
                 )
-                setTimeout(() => setNotification(null), 1500)
             }
         }
         else{
@@ -59,13 +58,13 @@ const App = () => {
             let newPerson = {name: newName, number:newNumber, id: persons.length + 1}
             phonebookService.create(newPerson)
             .then(returnedPerson => setPersons(persons.concat(returnedPerson)))
-            // Set these empty to ensure the boxes are empty
-            setNewName("")
-            setNewNumber("")
             setNotification(`Added ${newName}`)
-            // setTimeout requires a function as parameter too
-            setTimeout(() => setNotification(null), 1500)
         }
+        // Set these empty to ensure the boxes are empty
+        setNewName("")
+        setNewNumber("")    
+        // setTimeout requires a function as parameter too
+        setTimeout(() => setNotification(null), 1500)
     }
 
     const filteredPersons = persons.filter(
