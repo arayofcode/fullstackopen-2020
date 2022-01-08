@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Form from './Components/form'
 import Filter from './Components/filter'
 import Persons from './Components/persons'
-import axios from 'axios'
+import phonebookService from './services/phonebook'
 
 const App = () => {
     const [persons, setPersons] = useState([])
@@ -11,9 +11,9 @@ const App = () => {
     const [searchPerson, setSearchPerson] = useState('')
     
     useEffect(() => {
-        axios.get('http://localhost:3001/persons')
-        .then(response => {
-            setPersons(response.data)
+        phonebookService.getAll()
+        .then(persons => {
+            setPersons(persons)
         })
     }, [])
 
@@ -34,11 +34,18 @@ const App = () => {
     const addPerson = (event) => {
         event.preventDefault()
         // Check if duplicate. If not, add
-        if(persons.find(person => person.name === newName)){
-            alert(`${newName} is already added to phonebook`)
+        let checkPerson = persons.find(person => person.name.toLowerCase() === newName.toLowerCase()) 
+        if(checkPerson){
+            // alert(`${newName} is already added to phonebook`)
+            console.log(checkPerson);
+            if(window.confirm(`${newName} is already added to phonebook, replace old one with new one?`)){
+                phonebookService.update(checkPerson.id, {...checkPerson, number: newNumber})
+            }
         }
         else{
-            setPersons([...persons, {name: newName, number:newNumber, id: persons.length + 1}])
+            let newPerson = {name: newName, number:newNumber, id: persons.length + 1}
+            phonebookService.create(newPerson)
+            .then(returnedPerson => setPersons(persons.concat(returnedPerson)))
             setNewName("")
             setNewNumber("")    
         }
@@ -54,7 +61,7 @@ const App = () => {
         <Filter searchTerm={searchPerson} setSearchTerm={updateSearchPerson}/>
         <Form addPerson={addPerson} newName={newName} newNumber={newNumber} updateName={updateName} updateNumber={updateNumber}/>
         <h2>Numbers</h2>
-        <Persons persons = {filteredPersons} />
+        <Persons persons = {filteredPersons} setPersons={setPersons}/>
     </div>
     )
 }

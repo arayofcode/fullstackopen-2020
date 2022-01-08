@@ -1,9 +1,20 @@
-import React from "react"
+import phonebookService from "../services/phonebook"
 
-const Person = ({name, number}) => {
+const Person = ({data, setPersons}) => {
+
+    const handleDelete = () => {
+        if (window.confirm(`Do you really want to delete ${data.name}?`)) {
+            phonebookService.remove(data.id)
+            .then(
+                () => phonebookService.getAll()
+                .then(persons => setPersons(persons))
+            )
+        }
+    }
+
     return (
         <li>
-            {name} {number}
+            {data.name} {data.number} <button onClick={handleDelete}> DELETE </button>
         </li>
     )
 }

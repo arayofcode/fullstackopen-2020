@@ -1,7 +1,7 @@
 import React from "react";
 import Person from "./person";
 
-const Persons = ({persons}) => {
+const Persons = ({persons, setPersons}) => {
     if( persons.length === 0){
         return <div>No data to show</div>
     }
@@ -9,7 +9,7 @@ const Persons = ({persons}) => {
         return(
             <ul>
                 {persons.map(
-                    (person) => <Person key={person.id} name={person.name} number={person.number}/>
+                    (person) => <Person key={person.id} data={person} setPersons={setPersons}/>
                 )}
             </ul>
         )
